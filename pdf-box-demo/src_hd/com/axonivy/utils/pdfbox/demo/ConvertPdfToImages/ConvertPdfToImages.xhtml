@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">Title</ui:define>
+    <ui:define name="content">
+      <p:dialog modal="true" widgetVar="download-status-dialog"
+        header="Downloading" draggable="false" closable="false"
+        resizable="false">
+        <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-spinner pi-spin" style="font-size: 3rem"></i>
+        </div>
+      </p:dialog>
+      <h2>Header</h2>
+      <h:form id="form" enctype="multipart/form-data">
+        <p:fileUpload value="#{pdfFactoryBean.uploadedFile}"
+          mode="advanced" auto="true"
+          accept=".pdf" skinSimple="true" 
+          allowTypes="/(\.|\/)(pdf)$/"
+          update="field-form"
+          label="ChoosePdfFile" listener="#{pdfFactoryBean.updateFormData}" />
+        <h4>SelectExtension</h4>
+        <h:panelGroup id="select-one">
+          <p:selectOneMenu
+            value="#{pdfFactoryBean.selectedFileExtension}">
+            <f:selectItems
+              value="#{pdfFactoryBean.otherDocumentTypes}" var="type"
+              itemLabel="#{type.name()}" itemValue="#{type}" />
+            <p:ajax process="form" partialSubmit="true"/>
+          </p:selectOneMenu>
+        </h:panelGroup>
+        <p:commandButton
+          value="ConvertAndDownload"
+          ajax="false"
+          actionListener="#{pdfFactoryBean.convertPdfToOtherDocumentTypes}"
+          icon="pi pi-download"
+          styleClass="mt-3 ui-button-outlined block"
+          onclick="PrimeFaces.monitorDownload(startDownload, stopDownload);">
+          <p:fileDownload value="#{pdfFactoryBean.fileForDownload}" />
+        </p:commandButton>
+        <p:dataTable rendered="#{!pdfFactoryBean.formData.isEmpty}" value="#{pdfFactoryBean.formData.entrySet()}"
+          var="entry" stripedRows="true" id="field-form">
+          <p:column headerText="Field Name">
+            <h:outputText value="#{entry.key}" />
+          </p:column>
+          <p:column headerText="Value">
+            <p:inputText value="#{entry.value}" />
+          </p:column>
+        </p:dataTable>
+        <script type="text/javascript">
+            function startDownload() {
+              var statusDialog = PF('download-status-dialog');
+              statusDialog.jq.removeAttr("download-status");
+              statusDialog.show();
+            }
+ 
+            function stopDownload() {
+              var statusDialog = PF('download-status-dialog');
+              statusDialog.jq.attr("download-status","completed");
+              statusDialog.hide();
+            }
+        </script>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
