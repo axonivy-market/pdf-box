@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum FileExtension {
-  JPG(".jpg"), JPEG(".jpeg"), PNG(".png");
+  JPG("jpg"), JPEG("jpeg"), PNG("png");
 
   private final String extension;
 

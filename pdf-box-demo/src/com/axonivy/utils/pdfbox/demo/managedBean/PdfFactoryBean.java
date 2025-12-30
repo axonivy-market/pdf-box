@@ -1,130 +1,116 @@
 package com.axonivy.utils.pdfbox.demo.managedBean;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
-import javax.imageio.ImageIO;
+import javax.faces.bean.ViewScoped;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
-import org.apache.pdfbox.rendering.PDFRenderer;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
 import com.axonivy.utils.pdfbox.demo.enums.FileExtension;
-
-import ch.ivyteam.ivy.environment.Ivy;
+import com.axonivy.utils.pdfbox.service.PdfService;
 
 @ManagedBean
 @ViewScoped
-public class PdfFactoryBean {
-  private List<FileExtension> otherDocumentTypes = FileExtension.getOtherDocumentTypes();
-  private FileExtension selectedFileExtension = FileExtension.PNG;
+public class PdfFactoryBean implements Serializable {
+  private static final long serialVersionUID = 1L;
+  private List<FileExtension> otherDocumentTypes;
+  private FileExtension selectedFileExtension;
   private DefaultStreamedContent fileForDownload;
   private UploadedFile uploadedFile;
   private Map<String, String> formData;
-  private PDDocument document;
+  private static final int DEFAULT_DPI = 150;
+  private final String DEFAULT_IMAGE_FORMAT = FileExtension.PNG.getExtension();
+  private final String APPLICATION_PDF_MEDIA_TYPE = "application/pdf";
+  private final String APPLICATION_ZIP_MEDIA_TYPE = "application/zip";
+  private final String DEFAULT_ZIP_NAME = "pdf_images.zip";
+  private final String DATA_FILLED_PREFIX_PATTERN = "filled-%s";
+
+  @PostConstruct
+  void init() {
+    otherDocumentTypes = FileExtension.getOtherDocumentTypes();
+    selectedFileExtension = FileExtension.PNG;
+    if (formData == null) {
+      formData = new HashMap<>();
+    }
+  }
 
   public void convertPdfToOtherDocumentTypes() throws IOException {
     if (uploadedFile != null) {
-      fileForDownload = convertPdfToImageZip(uploadedFile);
+      String format = selectedFileExtension != null ? selectedFileExtension.getExtension() : DEFAULT_IMAGE_FORMAT;
+      fileForDownload = convertPdfToImageZip(uploadedFile, format, DEFAULT_DPI);
     }
   }
 
-  public void updateFormData(FileUploadEvent event) {
-    try {
-      document = Loader.loadPDF(event.getFile().getInputStream().readAllBytes());
-      formData = new HashMap<String, String>();
+  public void handleFileUpload(FileUploadEvent event) {
+    this.uploadedFile = event.getFile();
+    updateFormData();
+  }
+
+  public void updatePdfFormAndDownload() throws IOException {
+    validateUpload();
+    if (formData.isEmpty()) {
+      throw new IllegalStateException("Form data is empty");
+    }
+    try (PDDocument document = loadDocument(); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+      PdfService.fillAcroForm(document, formData);
+      document.save(baos);
+      byte[] pdfBytes = baos.toByteArray();
+      fileForDownload = DefaultStreamedContent.builder()
+          .name(String.format(DATA_FILLED_PREFIX_PATTERN, uploadedFile.getFileName()))
+          .contentType(APPLICATION_PDF_MEDIA_TYPE).stream(() -> new ByteArrayInputStream(pdfBytes)).build();
+    }
+  }
+
+  public void updateFormData() {
+    formData.clear();
+    if (uploadedFile == null) {
+      return;
+    }
+    try (PDDocument document = loadDocument()) {
       PDAcroForm acroForm = document.getDocumentCatalog().getAcroForm();
-      if (acroForm == null) {
-        return;
-      }
-      for (PDField field : acroForm.getFields()) {
-        String fieldName = field.getFullyQualifiedName();
-        String fieldValue = field.getValueAsString();
-        formData.put(fieldName, fieldValue);
+      if (acroForm != null) {
+        for (PDField field : acroForm.getFields()) {
+          formData.put(field.getFullyQualifiedName(), field.getValueAsString());
+        }
       }
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
     }
   }
 
-  public DefaultStreamedContent convertPdfToImageZip(UploadedFile uploadedFile, String imageFormat, int dpi)
+  public DefaultStreamedContent convertPdfToImageZip(UploadedFile file, String imageFormat, int dpi)
       throws IOException {
-    long start, end, total;
-    start = System.currentTimeMillis();
-    // Validate inputs
-    if (uploadedFile == null) {
+    if (file == null) {
       throw new IllegalArgumentException("Uploaded file cannot be null");
     }
-
-    if (imageFormat == null || imageFormat.trim().isEmpty()) {
-      imageFormat = "png";
-    }
-
-    if (dpi <= 0) {
-      dpi = 150;
-    }
-    int pageCount = 0;
-    ByteArrayOutputStream zipOutput = new ByteArrayOutputStream();
-    try (ZipOutputStream zipStream = new ZipOutputStream(zipOutput)) {
-      try {
-        // Create a PDF renderer
-        PDFRenderer pdfRenderer = new PDFRenderer(document);
-
-        // Iterate through each page
-        pageCount = document.getNumberOfPages();
-        for (int pageIndex = 0; pageIndex < pageCount; pageIndex++) {
-          // Render page to image
-          BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(pageIndex, dpi);
-
-          // Create ZIP entry for this page
-          String imageName = String.format("page_%03d.%s", pageIndex + 1, imageFormat);
-          zipStream.putNextEntry(new ZipEntry(imageName));
-
-          // Write image to ZIP
-          ImageIO.write(bufferedImage, imageFormat, zipStream);
-          zipStream.closeEntry();
-        }
-      } finally {
-        document.close();
-      }
-    }
-    ByteArrayInputStream zipInputStream = new ByteArrayInputStream(zipOutput.toByteArray());
-    end = System.currentTimeMillis();
-    total = end - start;
-    Ivy.log().warn("Total time of processing {0} page(s) with average speed: {1} milisecond(s) - {2}/page", pageCount,
-        total, total / pageCount);
-    // Prepare the streamed content for download
-    return DefaultStreamedContent.builder().name("pdf_images.zip").contentType("application/zip")
-        .stream(() -> zipInputStream).build();
+    return DefaultStreamedContent.builder().name(DEFAULT_ZIP_NAME).contentType(APPLICATION_ZIP_MEDIA_TYPE)
+        .stream(() -> new ByteArrayInputStream(
+            PdfService.createZippedImagesFromPdf(uploadedFile.getContent(), imageFormat, dpi)))
+        .build();
   }
 
-  /**
-   * Overloaded method with default parameters
-   */
-  public DefaultStreamedContent convertPdfToImageZip(UploadedFile uploadedFile) throws IOException {
-    return convertPdfToImageZip(uploadedFile, "png", 150);
+  private PDDocument loadDocument() throws IOException {
+    validateUpload();
+    return Loader.loadPDF(uploadedFile.getContent());
   }
 
-  /**
-   * Overloaded method with custom image format
-   */
-  public DefaultStreamedContent convertPdfToImageZip(UploadedFile uploadedFile, String imageFormat) throws IOException {
-    return convertPdfToImageZip(uploadedFile, imageFormat, 150);
+  private void validateUpload() {
+    if (uploadedFile == null) {
+      throw new IllegalStateException("No PDF uploaded");
+    }
   }
 
   public List<FileExtension> getOtherDocumentTypes() {

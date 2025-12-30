@@ -18,12 +18,15 @@
       </p:dialog>
       <h2>Header</h2>
       <h:form id="form" enctype="multipart/form-data">
-        <p:fileUpload value="#{pdfFactoryBean.uploadedFile}"
-          mode="advanced" auto="true"
+        <p:fileUpload
+          listener="#{pdfFactoryBean.handleFileUpload}"
+          mode="advanced"
+          auto="true"
+          update="field-form"
+          sizeLimit="10485760"
           accept=".pdf" skinSimple="true" 
           allowTypes="/(\.|\/)(pdf)$/"
-          update="field-form"
-          label="ChoosePdfFile" listener="#{pdfFactoryBean.updateFormData}" />
+          label="Choose Pdf File" />
         <h4>SelectExtension</h4>
         <h:panelGroup id="select-one">
           <p:selectOneMenu
@@ -35,7 +38,7 @@
           </p:selectOneMenu>
         </h:panelGroup>
         <p:commandButton
-          value="ConvertAndDownload"
+          value="Convert And Download"
           ajax="false"
           actionListener="#{pdfFactoryBean.convertPdfToOtherDocumentTypes}"
           icon="pi pi-download"
@@ -43,27 +46,39 @@
           onclick="PrimeFaces.monitorDownload(startDownload, stopDownload);">
           <p:fileDownload value="#{pdfFactoryBean.fileForDownload}" />
         </p:commandButton>
-        <p:dataTable rendered="#{!pdfFactoryBean.formData.isEmpty}" value="#{pdfFactoryBean.formData.entrySet()}"
-          var="entry" stripedRows="true" id="field-form">
-          <p:column headerText="Field Name">
-            <h:outputText value="#{entry.key}" />
-          </p:column>
-          <p:column headerText="Value">
-            <p:inputText value="#{entry.value}" />
-          </p:column>
-        </p:dataTable>
+        <h:panelGroup layout="block" id="field-form">
+          <p:dataTable rendered="#{!pdfFactoryBean.formData.isEmpty()}" value="#{pdfFactoryBean.formData.entrySet()}"
+            var="entry" stripedRows="true" >
+            <p:column headerText="Field Name">
+              <h:outputText value="#{entry.key}" />
+            </p:column>
+            <p:column headerText="Value">
+              <p:inputText value="#{pdfFactoryBean.formData[entry.key]}" />
+            </p:column>
+          </p:dataTable>
+          <p:commandButton
+            rendered="#{!pdfFactoryBean.formData.isEmpty()}"
+            value="Update and download"
+            process="field-form"
+            ajax="false"
+            actionListener="#{pdfFactoryBean.updatePdfFormAndDownload}"
+            icon="pi pi-download"
+            styleClass="mt-3 ui-button-outlined block"
+            onclick="PrimeFaces.monitorDownload(startDownload, stopDownload);">
+            <p:fileDownload value="#{pdfFactoryBean.fileForDownload}" />
+          </p:commandButton>
+        </h:panelGroup>
         <script type="text/javascript">
-            function startDownload() {
-              var statusDialog = PF('download-status-dialog');
-              statusDialog.jq.removeAttr("download-status");
-              statusDialog.show();
-            }
- 
-            function stopDownload() {
-              var statusDialog = PF('download-status-dialog');
-              statusDialog.jq.attr("download-status","completed");
-              statusDialog.hide();
-            }
+          function startDownload() {
+            var statusDialog = PF('download-status-dialog');
+            statusDialog.jq.removeAttr("download-status");
+            statusDialog.show();
+          } 
+          function stopDownload() {
+            var statusDialog = PF('download-status-dialog');
+            statusDialog.jq.attr("download-status","completed");
+            statusDialog.hide();
+          }
         </script>
       </h:form>
     </ui:define>

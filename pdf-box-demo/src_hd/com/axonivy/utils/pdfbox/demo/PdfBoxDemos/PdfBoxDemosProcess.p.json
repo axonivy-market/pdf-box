@@ -1,9 +1,9 @@
 {
   "$schema" : "https://json-schema.axonivy.com/process/12.0.0/process.json",
-  "id" : "19B54EABE1A9EE8A",
+  "id" : "19B6D4AE68773B29",
   "kind" : "HTML_DIALOG",
   "config" : {
-    "data" : "com.axonivy.utils.pdfbox.demo.ConvertPdfToImages.ConvertPdfToImagesData"
+    "data" : "com.axonivy.utils.pdfbox.demo.PdfBoxDemos.PdfBoxDemosData"
   },
   "elements" : [ {
       "id" : "f0",
@@ -11,7 +11,7 @@
       "name" : "start()",
       "config" : {
         "signature" : "start",
-        "guid" : "19B54EABE1ECED12"
+        "guid" : "19B6D4AE68CD4F19"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 }
@@ -31,7 +31,7 @@
       "type" : "HtmlDialogEventStart",
       "name" : "close",
       "config" : {
-        "guid" : "19B54EABE241F1F7"
+        "guid" : "19B6D4AE6A534077"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 160 }
