@@ -7,7 +7,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions">
 <h:body>
   <ui:composition template="/layouts/frame-10-full-width.xhtml">
-    <ui:define name="title">Title</ui:define>
+    <ui:define name="title">#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Title')}</ui:define>
     <ui:define name="content">
       <p:dialog modal="true" widgetVar="download-status-dialog"
         header="Downloading" draggable="false" closable="false"
@@ -16,7 +16,7 @@
           <i class="pi pi-spinner pi-spin" style="font-size: 3rem"></i>
         </div>
       </p:dialog>
-      <h2>Header</h2>
+      <h2>#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Header')}</h2>
       <h:form id="form" enctype="multipart/form-data">
         <p:fileUpload
           listener="#{pdfFactoryBean.handleFileUpload}"
@@ -27,7 +27,7 @@
           accept=".pdf" skinSimple="true" 
           allowTypes="/(\.|\/)(pdf)$/"
           label="Choose Pdf File" />
-        <h4>SelectExtension</h4>
+        <h4>#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/SelectExtension')}</h4>
         <h:panelGroup id="select-one">
           <p:selectOneMenu
             value="#{pdfFactoryBean.selectedFileExtension}">
@@ -38,7 +38,7 @@
           </p:selectOneMenu>
         </h:panelGroup>
         <p:commandButton
-          value="Convert And Download"
+          value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/CovertAndDownload')}"
           ajax="false"
           actionListener="#{pdfFactoryBean.convertPdfToOtherDocumentTypes}"
           icon="pi pi-download"
@@ -49,16 +49,16 @@
         <h:panelGroup layout="block" id="field-form">
           <p:dataTable rendered="#{!pdfFactoryBean.formData.isEmpty()}" value="#{pdfFactoryBean.formData.entrySet()}"
             var="entry" stripedRows="true" >
-            <p:column headerText="Field Name">
+            <p:column headerText="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Name')}">
               <h:outputText value="#{entry.key}" />
             </p:column>
-            <p:column headerText="Value">
+            <p:column headerText="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Value')}">
               <p:inputText value="#{pdfFactoryBean.formData[entry.key]}" />
             </p:column>
           </p:dataTable>
           <p:commandButton
             rendered="#{!pdfFactoryBean.formData.isEmpty()}"
-            value="Update and download"
+            value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/UpdateAndDownload')}"
             process="field-form"
             ajax="false"
             actionListener="#{pdfFactoryBean.updatePdfFormAndDownload}"

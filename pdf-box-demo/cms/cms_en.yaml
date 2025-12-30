@@ -1,0 +1,15 @@
+Dialogs:
+  com:
+    axonivy:
+      utils:
+        pdfbox:
+          demos:
+            PdfBoxDemos:
+              ChoosePdfFile: Choose Pdf File
+              CovertAndDownload: Covert And Download
+              Header: Header
+              Name: Name
+              SelectExtension: Select Extension
+              Title: Title
+              UpdateAndDownload: Update And Download
+              Value: Value
