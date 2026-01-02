@@ -7,9 +7,9 @@
   <version>12.0.11-SNAPSHOT</version>
   <packaging>iar-integration-test</packaging>
   <properties>
-    <project.build.plugin.version>12.0.11</project.build.plugin.version>
+    <project.build.plugin.version>12.0.8</project.build.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tester.version>12.0.11</tester.version>
+    <tester.version>12.0.2</tester.version>
   </properties>
   <pluginRepositories>
     <!-- Snapshot releases are available via sonatype.org -->
@@ -34,6 +34,12 @@
     <dependency>
       <groupId>com.axonivy.utils.pdfbox</groupId>
       <artifactId>pdf-box</artifactId>
+      <version>${project.version}</version>
+      <type>iar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.axonivy.utils.pdfbox</groupId>
+      <artifactId>pdf-box-demo</artifactId>
       <version>${project.version}</version>
       <type>iar</type>
     </dependency>

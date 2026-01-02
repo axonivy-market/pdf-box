@@ -1,0 +1,112 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Title')}</ui:define>
+    <ui:define name="content">
+      <p:dialog modal="true" widgetVar="download-status-dialog"
+        header="Downloading" draggable="false" closable="false"
+        resizable="false">
+        <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-spinner pi-spin" ></i>
+        </div>
+      </p:dialog>
+      <h2>#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Header')}</h2>
+      <h:form id="form" enctype="multipart/form-data">
+        <p:fileUpload
+          listener="#{pdfFactoryBean.handleFileUpload}"
+          mode="advanced"
+          auto="true"
+          update="field-form uploaded-file-info"
+          sizeLimit="10485760"
+          accept=".pdf" skinSimple="true" 
+          allowTypes="/(\.|\/)(pdf)$/"
+          label="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/ChoosePdfFile')}" />
+        <h:panelGroup id="uploaded-file-info" layout="block" styleClass="mt-2">
+          <h:outputText 
+            value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/UploadedFileNamePattern', [pdfFactoryBean.uploadedFileName])}" 
+            rendered="#{not empty pdfFactoryBean.uploadedFileName}" 
+            styleClass="font-bold text-green-500" />
+        </h:panelGroup>
+        <h4>#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/SelectExtension')}</h4>
+        <h:panelGroup id="select-one" layout="block">
+          <p:selectOneMenu
+            value="#{pdfFactoryBean.selectedFileExtension}">
+            <f:selectItems
+              value="#{pdfFactoryBean.supportedImageFileExtensions}" var="type"
+              itemLabel="#{type.name()}" itemValue="#{type}" />
+            <p:ajax process="form" partialSubmit="true"/>
+          </p:selectOneMenu>
+        </h:panelGroup>
+        <p:commandButton
+          value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/ConvertAndDownload')}"
+          ajax="false"
+          actionListener="#{pdfFactoryBean.convertPdfToOtherDocumentTypes}"
+          icon="pi pi-download"
+          styleClass="mt-3 ui-button-outlined"
+          onclick="PrimeFaces.monitorDownload(startDownload, stopDownload);">
+          <p:fileDownload value="#{pdfFactoryBean.fileForDownload}" />
+        </p:commandButton>
+        <h:panelGroup layout="block" id="field-form">
+          <p:dataTable rendered="#{!pdfFactoryBean.formFieldDataList.isEmpty()}" value="#{pdfFactoryBean.formFieldDataList}"
+            var="field" stripedRows="true" paginator="true" rows="10"
+            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15,20">
+          
+            <p:column headerText="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Name')}"
+              sortBy="#{field.fieldName}">
+              <h:outputText value="#{field.fieldName}" />
+            </p:column>
+            <p:column headerText="Field Type" sortBy="#{field.fieldTypeLabel}">
+              <h:outputText value="#{field.fieldTypeLabel}" />
+            </p:column>
+            <p:column headerText="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Value')}">
+              <p:inputText value="#{field.fieldValue}" rendered="#{field.isTextField()}" styleClass="w-full" />
+              <p:selectBooleanCheckbox value="#{field.fieldValue}" rendered="#{field.isCheckbox()}" />
+              <p:selectOneRadio value="#{field.fieldValue}" rendered="#{field.isRadioButton()}" layout="pageDirection">
+                <f:selectItem itemLabel="Yes" itemValue="Yes" />
+                <f:selectItem itemLabel="No" itemValue="No" />
+              </p:selectOneRadio>
+              <p:selectOneMenu value="#{field.fieldValue}" rendered="#{field.isDropdown()}" styleClass="w-full">
+                <f:selectItems value="#{field.dropdownOptions}" var="option" itemLabel="#{option}" itemValue="#{option}" />
+              </p:selectOneMenu>
+              <p:selectManyMenu value="#{field.fieldValue}" rendered="#{field.isListBox()}" styleClass="w-full">
+                <f:selectItems value="#{field.dropdownOptions}" var="option" itemLabel="#{option}" itemValue="#{option}" />
+              </p:selectManyMenu>
+            </p:column>
+          </p:dataTable>
+          
+          <p:commandButton
+            rendered="#{!pdfFactoryBean.formFieldDataList.isEmpty()}"
+            value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/UpdateAndDownload')}"
+            process="field-form"
+            ajax="false"
+            actionListener="#{pdfFactoryBean.updatePdfFormAndDownload}"
+            icon="pi pi-download"
+            styleClass="mt-3 ui-button-outlined"
+            onclick="PrimeFaces.monitorDownload(startDownload, stopDownload);">
+            <p:fileDownload value="#{pdfFactoryBean.fileForDownload}" />
+          </p:commandButton>
+        </h:panelGroup>
+        <script type="text/javascript">
+          function startDownload() {
+            var statusDialog = PF('download-status-dialog');
+            statusDialog.jq.removeAttr("download-status");
+            statusDialog.show();
+          } 
+          function stopDownload() {
+            var statusDialog = PF('download-status-dialog');
+            statusDialog.jq.attr("download-status","completed");
+            statusDialog.hide();
+          }
+        </script>
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

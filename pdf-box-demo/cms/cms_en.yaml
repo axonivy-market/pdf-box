@@ -1,0 +1,19 @@
+Dialogs:
+  com:
+    axonivy:
+      utils:
+        pdfbox:
+          demos:
+            PdfBoxDemos:
+              ChoosePdfFile: Choose Pdf File
+              ConvertAndDownload: Convert And Download
+              Header: PDF Box Demos
+              Name: Name
+              SelectExtension: Select Extension
+              Title: Title
+              UpdateAndDownload: Update And Download
+              UploadedFileNamePattern: 'Uploaded File: {0}'
+              Value: Value
+Process:
+  PdfBoxDemos:
+    name: Pdf Box Demos
