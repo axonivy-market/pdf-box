@@ -21,9 +21,6 @@ public class PdfService {
   private static final int DEFAULT_DPI = 150;
   private static final String SEPARATED_IMAGE_PATTERN = "page_%03d.%s";
 
-  /**
-   * Generic method to generate a ZIP byte array from a PDF.
-   */
   public static byte[] createZippedImagesFromPdf(byte[] bytes, String imageFormat, int dpi) {
     int useDpi = dpi <= 0 ? DEFAULT_DPI : dpi;
     try (PDDocument document = Loader.loadPDF(bytes);
@@ -36,16 +33,13 @@ public class PdfService {
         addToZip(zos, fileName, image, imageFormat);
       }
       zos.finish();
-      return baos.toByteArray(); // Return the raw bytes
+      return baos.toByteArray();
     } catch (IOException e) {
       Ivy.log().warn("Can not create Zip from current file", e);
       return new byte[0];
     }
   }
 
-  /**
-   * Reusable utility to add a BufferedImage to an active ZipOutputStream.
-   */
   private static void addToZip(ZipOutputStream zos, String fileName, BufferedImage image, String format)
       throws IOException {
     ZipEntry entry = new ZipEntry(fileName);
@@ -54,9 +48,6 @@ public class PdfService {
     zos.closeEntry();
   }
 
-  /**
-   * Generic method to fill a PDF AcroForm with a map of data.
-   */
   public static void fillAcroForm(PDDocument document, Map<String, String> data) throws IOException {
     PDAcroForm acroForm = document.getDocumentCatalog().getAcroForm();
     if (acroForm == null) {
