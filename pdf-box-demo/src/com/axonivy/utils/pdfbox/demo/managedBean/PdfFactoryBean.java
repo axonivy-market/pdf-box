@@ -45,7 +45,7 @@ import ch.ivyteam.ivy.environment.Ivy;
 @ViewScoped
 public class PdfFactoryBean implements Serializable {
   private static final long serialVersionUID = 1L;
-  private List<SupportedImageFileExtension> otherDocumentTypes;
+  private List<SupportedImageFileExtension> supportedImageFileExtensions;
   private SupportedImageFileExtension selectedFileExtension;
   private DefaultStreamedContent fileForDownload;
   private UploadedFile uploadedFile;
@@ -56,7 +56,7 @@ public class PdfFactoryBean implements Serializable {
 
   @PostConstruct
   void init() {
-    otherDocumentTypes = Arrays.asList(SupportedImageFileExtension.values());
+    supportedImageFileExtensions = Arrays.asList(SupportedImageFileExtension.values());
     selectedFileExtension = SupportedImageFileExtension.PNG;
     if (formData == null) {
       formData = new HashMap<>();
@@ -153,7 +153,6 @@ public class PdfFactoryBean implements Serializable {
   private void syncFormData() {
     for (FormFieldData fieldData : formFieldDataList) {
       String value = fieldData.getFieldValue();
-
       if (fieldData.isCheckbox()) {
         String exportValue = fieldData.getCheckboxExportValue();
         if (exportValue == null) {
@@ -170,7 +169,6 @@ public class PdfFactoryBean implements Serializable {
           value = COSName.Off.getName().equalsIgnoreCase(value) ? COSName.Off.getName() : exportValue;
         }
       }
-
       formData.put(fieldData.getOriginalFieldName(), value);
     }
   }
@@ -197,12 +195,12 @@ public class PdfFactoryBean implements Serializable {
     }
   }
 
-  public List<SupportedImageFileExtension> getOtherDocumentTypes() {
-    return otherDocumentTypes;
+  public List<SupportedImageFileExtension> getSupportedImageFileExtensions() {
+    return supportedImageFileExtensions;
   }
 
-  public void setOtherDocumentTypes(List<SupportedImageFileExtension> otherDocumentTypes) {
-    this.otherDocumentTypes = otherDocumentTypes;
+  public void setSupportedImageFileExtensions(List<SupportedImageFileExtension> supportedImageFileExtensions) {
+    this.supportedImageFileExtensions = supportedImageFileExtensions;
   }
 
   public SupportedImageFileExtension getSelectedFileExtension() {

@@ -1,6 +1,10 @@
 package com.axonivy.utils.pdfbox.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,7 +15,6 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -29,19 +32,21 @@ public class PdfServiceTest {
     byte[] result = PdfService.createZippedImagesFromPdf(pdfBytes, "png", 150);
     assertNotNull(result);
     assertNotEquals(0, result.length);
-
+    verifyZipContents(result, 1, "png");
     result = PdfService.createZippedImagesFromPdf(pdfBytes, "jpg", 300);
     assertNotNull(result);
     assertNotEquals(0, result.length);
+    verifyZipContents(result, 1, "jpg");
 
     result = PdfService.createZippedImagesFromPdf(pdfBytes, "png", -1);
     assertNotNull(result);
     assertNotEquals(0, result.length);
+    verifyZipContents(result, 1, "png");
   }
 
   @Test
   public void testFillAcroForm() throws IOException {
-    PDDocument document = createPdfWithFormFields(new String[]{"firstName", "lastName", "email"});
+    PDDocument document = createPdfWithFormFields(new String[] { "firstName", "lastName", "email" });
 
     Map<String, String> data = new HashMap<>();
     data.put("firstName", "John");
@@ -54,7 +59,7 @@ public class PdfServiceTest {
     assertEquals("john.doe@example.com", acroForm.getField("email").getValueAsString());
     document.close();
 
-    document = createPdfWithFormFields(new String[]{"firstName", "lastName", "email"});
+    document = createPdfWithFormFields(new String[] { "firstName", "lastName", "email" });
     data = new HashMap<>();
     data.put("firstName", "Jane");
     PdfService.fillAcroForm(document, data);
@@ -63,11 +68,11 @@ public class PdfServiceTest {
     assertEquals("", acroForm.getField("lastName").getValueAsString());
     document.close();
 
-    PDDocument doc = createPdfWithFormFields(new String[]{"firstName", "lastName"});
+    PDDocument doc = createPdfWithFormFields(new String[] { "firstName", "lastName" });
     assertDoesNotThrow(() -> PdfService.fillAcroForm(doc, new HashMap<>()));
     doc.close();
 
-    PDDocument doc2 = createPdfWithFormFields(new String[]{"field1"});
+    PDDocument doc2 = createPdfWithFormFields(new String[] { "field1" });
     assertDoesNotThrow(() -> PdfService.fillAcroForm(doc2, new HashMap<>()));
     doc2.close();
   }

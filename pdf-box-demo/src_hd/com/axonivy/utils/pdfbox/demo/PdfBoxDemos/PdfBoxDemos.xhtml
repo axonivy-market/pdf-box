@@ -38,7 +38,7 @@
           <p:selectOneMenu
             value="#{pdfFactoryBean.selectedFileExtension}">
             <f:selectItems
-              value="#{pdfFactoryBean.otherDocumentTypes}" var="type"
+              value="#{pdfFactoryBean.supportedImageFileExtensions}" var="type"
               itemLabel="#{type.name()}" itemValue="#{type}" />
             <p:ajax process="form" partialSubmit="true"/>
           </p:selectOneMenu>
