@@ -22,11 +22,17 @@
           listener="#{pdfFactoryBean.handleFileUpload}"
           mode="advanced"
           auto="true"
-          update="field-form"
+          update="field-form uploaded-file-info"
           sizeLimit="10485760"
           accept=".pdf" skinSimple="true" 
           allowTypes="/(\.|\/)(pdf)$/"
           label="Choose Pdf File" />
+        <h:panelGroup id="uploaded-file-info" layout="block" style="margin-top: 10px;">
+          <h:outputText 
+            value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/UploadedFileNamePattern', [pdfFactoryBean.uploadedFileName])}" 
+            rendered="#{not empty pdfFactoryBean.uploadedFileName}" 
+            styleClass="font-bold text-green-500" />
+        </h:panelGroup>
         <h4>#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/SelectExtension')}</h4>
         <h:panelGroup id="select-one">
           <p:selectOneMenu

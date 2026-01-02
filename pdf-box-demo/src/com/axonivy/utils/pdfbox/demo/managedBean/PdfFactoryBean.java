@@ -38,6 +38,7 @@ public class PdfFactoryBean implements Serializable {
   private final String APPLICATION_ZIP_MEDIA_TYPE = "application/zip";
   private final String DEFAULT_ZIP_NAME = "pdf_images.zip";
   private final String DATA_FILLED_PREFIX_PATTERN = "filled-%s";
+  private String uploadedFileName;
 
   @PostConstruct
   void init() {
@@ -56,7 +57,8 @@ public class PdfFactoryBean implements Serializable {
   }
 
   public void handleFileUpload(FileUploadEvent event) {
-    this.uploadedFile = event.getFile();
+    uploadedFile = event.getFile();
+    uploadedFileName = uploadedFile.getFileName();
     updateFormData();
   }
 
@@ -151,5 +153,13 @@ public class PdfFactoryBean implements Serializable {
 
   public void setFormData(Map<String, String> formData) {
     this.formData = formData;
+  }
+
+  public String getUploadedFileName() {
+    return uploadedFileName;
+  }
+
+  public void setUploadedFileName(String uploadedFileName) {
+    this.uploadedFileName = uploadedFileName;
   }
 }
