@@ -1,9 +1,15 @@
 package com.axonivy.utils.pdfbox.demo.managedBean;
 
+import static com.axonivy.utils.pdfbox.demo.constants.PdfBoxConstants.APPLICATION_PDF_MEDIA_TYPE;
+import static com.axonivy.utils.pdfbox.demo.constants.PdfBoxConstants.APPLICATION_ZIP_MEDIA_TYPE;
+import static com.axonivy.utils.pdfbox.demo.constants.PdfBoxConstants.DATA_FILLED_PREFIX_PATTERN;
+import static com.axonivy.utils.pdfbox.demo.constants.PdfBoxConstants.DEFAULT_ZIP_NAME;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,30 +26,25 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
-import com.axonivy.utils.pdfbox.demo.enums.FileExtension;
+import com.axonivy.utils.pdfbox.demo.enums.SupportedImageFileExtension;
 import com.axonivy.utils.pdfbox.service.PdfService;
 
 @ManagedBean
 @ViewScoped
 public class PdfFactoryBean implements Serializable {
   private static final long serialVersionUID = 1L;
-  private List<FileExtension> otherDocumentTypes;
-  private FileExtension selectedFileExtension;
+  private List<SupportedImageFileExtension> otherDocumentTypes;
+  private SupportedImageFileExtension selectedFileExtension;
   private DefaultStreamedContent fileForDownload;
   private UploadedFile uploadedFile;
   private Map<String, String> formData;
   private static final int DEFAULT_DPI = 150;
-  private final String DEFAULT_IMAGE_FORMAT = FileExtension.PNG.getExtension();
-  private final String APPLICATION_PDF_MEDIA_TYPE = "application/pdf";
-  private final String APPLICATION_ZIP_MEDIA_TYPE = "application/zip";
-  private final String DEFAULT_ZIP_NAME = "pdf_images.zip";
-  private final String DATA_FILLED_PREFIX_PATTERN = "filled-%s";
   private String uploadedFileName;
 
   @PostConstruct
   void init() {
-    otherDocumentTypes = FileExtension.getOtherDocumentTypes();
-    selectedFileExtension = FileExtension.PNG;
+    otherDocumentTypes = Arrays.asList(SupportedImageFileExtension.values());
+    selectedFileExtension = SupportedImageFileExtension.PNG;
     if (formData == null) {
       formData = new HashMap<>();
     }
@@ -51,7 +52,8 @@ public class PdfFactoryBean implements Serializable {
 
   public void convertPdfToOtherDocumentTypes() throws IOException {
     if (uploadedFile != null) {
-      String format = selectedFileExtension != null ? selectedFileExtension.getExtension() : DEFAULT_IMAGE_FORMAT;
+      String format = selectedFileExtension != null ? selectedFileExtension.getExtension()
+          : SupportedImageFileExtension.PNG.getExtension();
       fileForDownload = convertPdfToImageZip(uploadedFile, format, DEFAULT_DPI);
     }
   }
@@ -115,19 +117,19 @@ public class PdfFactoryBean implements Serializable {
     }
   }
 
-  public List<FileExtension> getOtherDocumentTypes() {
+  public List<SupportedImageFileExtension> getOtherDocumentTypes() {
     return otherDocumentTypes;
   }
 
-  public void setOtherDocumentTypes(List<FileExtension> otherDocumentTypes) {
+  public void setOtherDocumentTypes(List<SupportedImageFileExtension> otherDocumentTypes) {
     this.otherDocumentTypes = otherDocumentTypes;
   }
 
-  public FileExtension getSelectedFileExtension() {
+  public SupportedImageFileExtension getSelectedFileExtension() {
     return selectedFileExtension;
   }
 
-  public void setSelectedFileExtension(FileExtension selectedFileExtension) {
+  public void setSelectedFileExtension(SupportedImageFileExtension selectedFileExtension) {
     this.selectedFileExtension = selectedFileExtension;
   }
 

@@ -13,7 +13,7 @@
         header="Downloading" draggable="false" closable="false"
         resizable="false">
         <div class="flex align-items-center justify-content-center">
-          <i class="pi pi-spinner pi-spin" style="font-size: 3rem"></i>
+          <i class="pi pi-spinner pi-spin" ></i>
         </div>
       </p:dialog>
       <h2>#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/Header')}</h2>
@@ -26,8 +26,8 @@
           sizeLimit="10485760"
           accept=".pdf" skinSimple="true" 
           allowTypes="/(\.|\/)(pdf)$/"
-          label="Choose Pdf File" />
-        <h:panelGroup id="uploaded-file-info" layout="block" style="margin-top: 10px;">
+          label="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/ChoosePdfFile')}" />
+        <h:panelGroup id="uploaded-file-info" layout="block" styleClass="mt-2">
           <h:outputText 
             value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/UploadedFileNamePattern', [pdfFactoryBean.uploadedFileName])}" 
             rendered="#{not empty pdfFactoryBean.uploadedFileName}" 
@@ -44,7 +44,7 @@
           </p:selectOneMenu>
         </h:panelGroup>
         <p:commandButton
-          value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/CovertAndDownload')}"
+          value="#{ivy.cms.co('/Dialogs/com/axonivy/utils/pdfbox/demos/PdfBoxDemos/ConvertAndDownload')}"
           ajax="false"
           actionListener="#{pdfFactoryBean.convertPdfToOtherDocumentTypes}"
           icon="pi pi-download"

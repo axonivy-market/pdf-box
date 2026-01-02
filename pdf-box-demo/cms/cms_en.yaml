@@ -6,7 +6,7 @@ Dialogs:
           demos:
             PdfBoxDemos:
               ChoosePdfFile: Choose Pdf File
-              CovertAndDownload: Covert And Download
+              ConvertAndDownload: Convert And Download
               Header: PDF Box Demos
               Name: Name
               SelectExtension: Select Extension
