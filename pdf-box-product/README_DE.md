@@ -1,14 +1,9 @@
-<!--
-Dear developer !     
+# PDF Box Utils
 
-When you create your very valuable documentation, please be aware that this  is not only published on github. With this file we provide a German translation of the description-tab, i.e. https://market.axonivy.com/adobe-acrobat-connector#tab-description. Please contact us if you need support with the German translation.
--->
+Die **PDF Box Utils** sind eine leistungsstarke Utility-Bibliothek für die Axon Ivy Plattform, basierend auf dem Industriestandard [Apache PDFBox](https://pdfbox.apache.org/). Sie vereinfachen komplexe PDF-Manipulationen und ermöglichen es Entwicklern, PDF-Verarbeitungsfunktionen nahtlos in ihre Geschäftsprozesse zu integrieren.
 
-# pdfBox Utils
+## Hauptmerkmale
 
-Bitte übersetze mindestens das "Description"-Chapter aus https://github.com/axonivy-market/pdf-box/blob/master/pdf-box-product/README.md. Es wird auf unserer Homepage angezeigt.
-Falls Du darüber hinaus auch die anderen Chapter übersetzt, werden auch diese auf der Homepage auf Deutsch angezeigt.
-
-<!--
-Die Erläuterungen unter „MEIN-PRODUKT-NAME“ werden z.B. für den  Adobe Konnektor hier angezeigt: https://market.axonivy.com/adobe-acrobat-connector#tab-description wenn ein Nutzer Deutsch als Anzeigesprache ausgewählt hat.
--->
+- 🖼️ **PDF-zu-Bild-Konvertierung**: Wandeln Sie PDF-Seiten in hochwertige Bilder (PNG, JPG, etc.) mit anpassbaren DPI-Einstellungen um.
+- 📝 **AcroForm-Verwaltung**: Füllen und aktualisieren Sie PDF-Formularfelder programmatisch mit dynamischen Daten.
+- 📦 **Stapelverarbeitung & Zipping**: Paketieren Sie konvertierte Bilder automatisch in ein einzelnes ZIP-Archiv für eine effiziente Handhabung.

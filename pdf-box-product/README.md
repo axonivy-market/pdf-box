@@ -1,39 +1,36 @@
 # PDF Box Utils
 
-A comprehensive utility library for PDF manipulation built on Apache PDFBox, providing reusable methods for converting PDF pages to images, updating AcroForm fields, and packaging results into zip files.
+The **PDF Box Utils** is a powerful utility library for the Axon Ivy platform, built on top of the industry-standard [Apache PDFBox](https://pdfbox.apache.org/). It simplifies complex PDF manipulations, allowing developers to easily integrate PDF processing capabilities into their business processes.
 
-## Features
+## Key Features
 
-- **PDF to Image Conversion**: Convert PDF pages to high-quality images (PNG, JPG, etc.) with configurable DPI settings
-- **AcroForm Management**: Update PDF form fields programmatically with custom data
-- **Batch Export**: Package converted images into zip archives for easy distribution
+- 🖼️ **PDF to Image Conversion**: Transform PDF pages into high-quality images (PNG, JPG, etc.) with customizable DPI settings.
+- 📝 **AcroForm Management**: Programmatically fill and update PDF form fields with dynamic data.
+- 📦 **Batch Processing & Zipping**: Automatically package converted images into a single ZIP archive for efficient handling.
 
 ## Demo
 
-The PDF Box Utils includes comprehensive demo processes showcasing practical available functionality:
+Experience the capabilities of the library through our interactive demo process:
 
-### PDF processing
-
-
-#### Conver PDF pages to images
-1. Upload a PDF file.
-
-2. Choose which images format you want to convert to (PNG, JPG, etc.):
-
-3. Click on "Convert And Download" button and get the zip file of converted images from pdf file.
+### 1. PDF to Image Conversion
+Convert your PDF documents into a collection of images in just a few steps:
+1. **Upload**: Select your PDF file.
+2. **Configure**: Choose your desired image format (e.g., PNG, JPG).
+3. **Download**: Click "Convert And Download" to receive a ZIP file containing all pages as images.
 
 ![Convert to images](images/convert-to-images.png)
 
-#### Update AcroForm fields
+### 2. AcroForm Field Updates
+Easily manipulate PDF forms:
+1. **Upload**: Provide a PDF containing an AcroForm.
 
-1. Upload a PDF file with acro form.
+![PDF with AcroForm](images/sample-pdf.png)
 
-![Pdf with acro form](images/sample-pdf.png)
+2. **Edit**: Modify the field values directly in the UI.
 
-2. Update/modify form fields values as needed.
+![Update AcroForm](images/acro-form.png)
 
-![Update acro form](images/acro-form.png)
+3. **Generate**: Click "Update And Download" to get the modified PDF document.
 
-3. Click on "Update And Download" button to get the updated PDF file.
+![Updated AcroForm](images/updated-acro-form.png)
 
-![Updated acro form](images/updated-acro-form.png)
