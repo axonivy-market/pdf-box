@@ -10,13 +10,13 @@ The **PDF Box Utils** is a powerful utility library for the Axon Ivy platform, b
 
 ## Demo
 
-Experience the capabilities of the library through our interactive demo process:
+The PDF Box Utils includes comprehensive demo processes showcasing all available functionality:
 
 ### 1. PDF to Image Conversion
 Convert your PDF documents into a collection of images in just a few steps:
 1. **Upload**: Select your PDF file.
 2. **Configure**: Choose your desired image format (e.g., PNG, JPG).
-3. **Download**: Click "Convert And Download" to receive a ZIP file containing all pages as images.
+3. **Download**: Click the "Convert And Download" button to receive a ZIP file containing all pages as images.
 
 ![Convert to images](images/convert-to-images.png)
 
@@ -30,7 +30,7 @@ Easily manipulate PDF forms:
 
 ![Update AcroForm](images/acro-form.png)
 
-3. **Generate**: Click "Update And Download" to get the modified PDF document.
+3. **Generate**: Click the "Update And Download" button to get the modified PDF document.
 
 ![Updated AcroForm](images/updated-acro-form.png)
 
