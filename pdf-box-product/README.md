@@ -1,32 +1,39 @@
-<!--
-Dear developer!     
+# PDF Box Utils
 
-When you create your very valuable documentation, please be aware that this Readme.md is not only published on github. This documentation is also processed automatically and published on our website. For this to work, the two headings "Demo" and "Setup" must not be changed. Do also not change the order of the headings. Feel free to add sub-sections wherever you want.
--->
+A comprehensive utility library for PDF manipulation built on Apache PDFBox, providing reusable methods for converting PDF pages to images, updating AcroForm fields, and packaging results into zip files.
 
-# pdfBox Utils
+## Features
 
-YOUR DESCRIPTION GOES HERE: Please just give a short description here without further headings.
-
-<!--
-The explanations under "MY-RRODUCT-NAME" are displayed  e.g. for the Connector A-Trust here: https://market.axonivy.com/a-trust#tab-description   
--->
+- **PDF to Image Conversion**: Convert PDF pages to high-quality images (PNG, JPG, etc.) with configurable DPI settings
+- **AcroForm Management**: Update PDF form fields programmatically with custom data
+- **Batch Export**: Package converted images into zip archives for easy distribution
 
 ## Demo
 
-YOUR DEMO DESCRIPTION GOES HERE
+The PDF Box Utils includes comprehensive demo processes showcasing practical available functionality:
 
-<!--
-We use all entries under the heading "Demo" for the demo-Tab on our Website, e.g. for the Connector A-Trust here: https://market.axonivy.com/a-trust#tab-demo  
--->
+### PDF processing
 
-## Setup
 
-YOUR SETUP DESCRIPTION GOES HERE
-<!--
-The entries under the heading "Setup" are filled in this tab, e.g. for the Connector A-Trust here: https://market.axonivy.com/a-trust#tab-setup. 
--->
+#### Conver PDF pages to images
+1. Upload a PDF file.
 
-```
-@variables.yaml@
-```
+2. Choose which images format you want to convert to (PNG, JPG, etc.):
+
+3. Click on "Convert And Download" button and get the zip file of converted images from pdf file.
+
+![Convert to images](images/convert-to-images.png)
+
+#### Update AcroForm fields
+
+1. Upload a PDF file with acro form.
+
+![Pdf with acro form](images/sample-pdf.png)
+
+2. Update/modify form fields values as needed.
+
+![Update acro form](images/acro-form.png)
+
+3. Click on "Update And Download" button to get the updated PDF file.
+
+![Updated acro form](images/updated-acro-form.png)
