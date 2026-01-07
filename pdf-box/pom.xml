@@ -5,16 +5,14 @@
   <parent>
     <groupId>com.axonivy.ivy.api</groupId>
     <artifactId>ivy-project-parent</artifactId>
-    <version>13.2.1-SNAPSHOT</version>
+    <version>13.2.0</version>
     <relativePath></relativePath>
   </parent>
   <groupId>com.axonivy.utils.pdfbox</groupId>
   <artifactId>pdf-box</artifactId>
   <version>13.2.0-SNAPSHOT</version>
   <packaging>iar</packaging>
-  <properties>
-    <project.build.plugin.version>13.2.0</project.build.plugin.version>
-  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
