@@ -9,7 +9,7 @@ The **PDF Box Utils** is a powerful utility library for the Axon Ivy platform, b
 - 📦 **Batch Processing & Zipping**: Automatically package converted images into a single ZIP archive for efficient handling.
 
 For most document processing use cases, we recommend using our [DocFactory](https://market.axonivy.com/doc-factory?version=13.2.1#description) as the all-in-one solution.
-If you do not want to download the full SDK, you can alternatively use the partial solutions [Axon Ivy PDF](https://market.axonivy.com/axonivy-pdf?version=13.2.0#description), [Axon Ivy Words](https://market.axonivy.com/axonivy-words?version=13.2.0#description) or [Axon Ivy Cells](https://market.axonivy.com/axonivy-cells?version=13.2.0#description).
+If you do not want to download the full SDK, you can alternatively use the partial solutions [Axon Ivy PDF](https://market.axonivy.com/axonivy-pdf), [Axon Ivy Words](https://market.axonivy.com/axonivy-words) or [Axon Ivy Cells](https://market.axonivy.com/axonivy-cells).
 
 We also conducted performance tests using two PDF files with different sizes and page counts:
 
