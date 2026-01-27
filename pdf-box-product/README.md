@@ -2,13 +2,13 @@
 
 The **PDF Box Utils** is a powerful utility library for the Axon Ivy platform, built on top of the industry-standard [Apache PDFBox](https://pdfbox.apache.org/). It simplifies specific PDF-related tasks and is recommended for the use cases listed below.
 
-## Key Features
+### Key Features
 
 - 🖼️ **PDF to Image Conversion**: Transform PDF pages into high-quality images (PNG, JPG, etc.) with customizable DPI settings.
 - 📝 **AcroForm Management**: Programmatically fill and update PDF form fields with dynamic data.
 - 📦 **Batch Processing & Zipping**: Automatically package converted images into a single ZIP archive for efficient handling.
 
-For most document processing use cases, we recommend using our [DocFactory](https://market.axonivy.com/doc-factory?version=13.2.1#description) as the all-in-one solution.
+For most document processing use cases, we recommend using our [DocFactory](https://market.axonivy.com/doc-factory) as the all-in-one solution.
 If you do not want to download the full SDK, you can alternatively use the partial solutions [Axon Ivy PDF](https://market.axonivy.com/axonivy-pdf), [Axon Ivy Words](https://market.axonivy.com/axonivy-words) or [Axon Ivy Cells](https://market.axonivy.com/axonivy-cells).
 
 We also conducted performance tests using two PDF files with different sizes and page counts:
