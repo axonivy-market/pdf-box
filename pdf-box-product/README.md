@@ -1,55 +1,73 @@
 # PDF Box Utils
 
-The **PDF Box Utils** is a powerful utility library for the Axon Ivy platform, built on top of the industry-standard [Apache PDFBox](https://pdfbox.apache.org/). It simplifies specific PDF-related tasks and is recommended for the use cases listed below.
+PDF Box Utils brings simple PDF document automation to Axon Ivy: convert pages to images, fill PDF form fields, and package results for download. It helps teams automate document workflows without heavy manual effort.
 
-### Key Features
+### Key features
 
-- 🖼️ **PDF to Image Conversion**: Transform PDF pages into high-quality images (PNG, JPG, etc.) with customizable DPI settings.
-- 📝 **AcroForm Management**: Programmatically fill and update PDF form fields with dynamic data.
-- 📦 **Batch Processing & Zipping**: Automatically package converted images into a single ZIP archive for efficient handling.
-
-For most document processing use cases, we recommend using our [DocFactory](https://market.axonivy.com/doc-factory) as the all-in-one solution.
-If you do not want to download the full SDK, you can alternatively use the partial solutions [Axon Ivy PDF](https://market.axonivy.com/axonivy-pdf), [Axon Ivy Words](https://market.axonivy.com/axonivy-words) or [Axon Ivy Cells](https://market.axonivy.com/axonivy-cells).
-
-We also conducted performance tests using two PDF files with different sizes and page counts:
-
-||file A|file B|
-|----|-----|-----|
-|Number of pages| 12 | 120 |
-|Size | 10 MB | 100 MB |
-
-The measured results are shown below:
-
-||Processing Time (A - B) | Processing Time/Page (A - B) | Processing Speed (MB/s) |
-|----|-----|-----|-----|
-|PDF Box (this connetor)              | 3.8 s - 37.0 s     | 0.3 s - 0.3 s | 2.7 MB/s - 2.7 MB/s |
-|Axon Ivy PDF (Based on Aspose library)| 14.7 s - 109.7 s | 1.2 s - 0.9 s | 0.7 MB/s - 0.9 MB/s |
-
-
+- Convert PDF pages to high-quality images (PNG/JPG) with configurable DPI.
+- Programmatically fill and update AcroForm fields to automate form completion.
+- Batch export pages and bundle outputs into a single ZIP archive for easy download and distribution.
 
 ## Demo
 
-The PDF Box Utils includes comprehensive demo processes showcasing all available functionality:
+The product includes demo processes that show typical user workflows used in the pdf-box-demo module.
 
-### 1. PDF to Image Conversion
-Convert your PDF documents into a collection of images in just a few steps:
-1. **Upload**: Select your PDF file.
-2. **Configure**: Choose your desired image format (e.g., PNG, JPG).
-3. **Download**: Click the "Convert And Download" button to receive a ZIP file containing all pages as images.
+### PDF to Image Conversion
+
+1. Upload: Select a PDF document in the UI.
+2. Configure: Choose image format (PNG/JPG) and desired DPI.
+3. Convert & Download: Convert pages and download a ZIP with each page as an image.
 
 ![Convert to images](images/convert-to-images.png)
 
-### 2. AcroForm Field Updates
-Easily manipulate PDF forms:
-1. **Upload**: Provide a PDF containing an AcroForm.
+### AcroForm Field Updates
+
+1. Upload: Provide a PDF that contains an AcroForm.
+2. Edit: Change field values in the UI.
+3. Generate: Download the updated PDF.
 
 ![PDF with AcroForm](images/sample-pdf.png)
 
-2. **Edit**: Modify the field values directly in the UI.
+## Setup
 
-![Update AcroForm](images/acro-form.png)
+Install using the installers defined in this module's product.json (maven-import and maven-dependency). The product.json references the IARs and Maven artifacts required to add this product to your Axon Ivy project.
 
-3. **Generate**: Click the "Update And Download" button to get the modified PDF document.
+```
+@variables.yaml@
+```
 
-![Updated AcroForm](images/updated-acro-form.png)
+## Components
+
+### Callables
+
+No callable processes found in the main module (pdf-box).
+
+### Form components
+
+No form components detected in the main module (pdf-box).
+
+### REST clients / OpenAPI
+
+No REST clients defined in pdf-box/config/rest-clients.yaml.
+
+### Maven artifacts
+
+```xml
+<!-- Installers from product.json -->
+<!-- maven-import: IAR project -->
+<project>
+  <groupId>com.axonivy.utils.pdfbox</groupId>
+  <artifactId>pdf-box-demo</artifactId>
+  <version>${version}</version>
+  <type>iar</type>
+</project>
+
+<!-- maven-dependency -->
+<dependency>
+  <groupId>com.axonivy.utils.pdfbox</groupId>
+  <artifactId>pdf-box</artifactId>
+  <version>${version}</version>
+  <type>iar</type>
+</dependency>
+```
 
